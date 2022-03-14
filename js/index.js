@@ -22,6 +22,7 @@ $('#playbutton').addEventListener('click', function(){
 $('#backbutton').addEventListener('click', prevSong)
 $('#nextbutton').addEventListener('click', nextSong)
 audio.addEventListener("ended", nextSong);
+$('#form').addEventListener('submit', onSubmit);
 
 
 // Funciones
@@ -51,4 +52,24 @@ function play(){
     $('#playbutton').innerHTML = "pause"
     audio.src = songs[index].src;
     audio.play();
+    viewComments();
+}
+
+function onSubmit(e){
+    e.preventDefault();
+
+    songs[index].comments.push($('#comment').value)
+    $('#comment').value = '';
+
+    viewComments();
+}
+
+function viewComments(){
+    $('#comments').innerHTML = songs[index].comments.reduce(function(acc, comment){
+        return acc += `
+        <div class="my-m">
+            <span>${comment}</span>
+        </div>`
+    }, '')
+                            
 }
